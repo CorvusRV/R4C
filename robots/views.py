@@ -2,12 +2,11 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
 from django.utils.decorators import method_decorator
-from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
 
 from .models import Robot
 
-import json
 from datetime import datetime
 
 
@@ -30,13 +29,12 @@ class RobotsView(View):
         # запрос есть ли такой робот в списке ожидания и если да, передаются данные в заказы
 
         data = {
-            'message': f'New robot {robot.model}-{robot.version} created'
+            'message': f'Робот {robot.model}-{robot.version} создан'
         }
         return JsonResponse(data)
 
 class AccountView(View):
     def get(self, request):
-        #year, week, _ = now().isocalendar()
-        accountLastWeek = Robot.objects.all()  #filter(time__year=year, time__week=week).values_list('model', 'version', 'created')
-
-        return JsonResponse(accountLastWeek)
+        accountLastWeek = Robot.objects.all()
+        account = serialize('python', accountLastWeek)
+        return JsonResponse(account, safe=False)
