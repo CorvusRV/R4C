@@ -2,3 +2,5 @@ venv
 README.md
 tasks.md
 .idea
+db.sqlite3
+__pycache__
