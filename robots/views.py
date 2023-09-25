@@ -3,11 +3,14 @@ from django.http import JsonResponse
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.core.serializers import serialize
+from django.http import FileResponse
 
 from .models import Robot
+from .xlsx import create_exlx
 
 from datetime import datetime
+
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -33,8 +36,10 @@ class RobotsView(View):
         }
         return JsonResponse(data)
 
-class AccountView(View):
+class ReportView(View):
     def get(self, request):
-        accountLastWeek = Robot.objects.all()
-        account = serialize('python', accountLastWeek)
-        return JsonResponse(account, safe=False)
+        exlx_name = create_exlx()
+        response = FileResponse(open(exlx_name, 'rb'))
+        response['Content-Disposition'] = 'attachment; filename=' + exlx_name
+        response['X-Sendfile'] = exlx_name
+        return response

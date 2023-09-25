@@ -4,10 +4,9 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from django.core.serializers import serialize  # возможно временный
-
 from .models import Order
 from customers.models import Customer
+from robots.models import Robot
 
 
 @method_decorator(csrf_exempt, name='dispatch')
