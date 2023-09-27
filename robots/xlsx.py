@@ -7,24 +7,27 @@ from datetime import datetime
 
 
 def create_exlx():
-    week = datetime.today().isocalendar()[1]
-    #models = list(Robot.objects.values('model').filter(created__week=week).distinct())  # получение 'списка' всех моделей
-    models = list(Robot.objects.values('model').distinct())
-    list_models = [i['model'] for i in models]  # получение списка моделей
-    models2 = Robot.objects.values('model', 'version').annotate(Count('version'))  # получение кол-ва модель-версия
+    date = datetime.today()
+    week = date.isocalendar()[1]
+
+    list_models = [i['model'] for i in list(Robot.objects.values('model').filter(created__week=week).distinct())]
+    sort_list_models = sorted(list_models)
+    models = Robot.objects.values('model', 'version').filter(created__week=week).annotate(Count('version'))
+
     wb = Workbook()
-    for i in list_models:
+
+    for i in sort_list_models:
         ws = wb.create_sheet(i)
         ws.append(('Модель', 'Версия', 'Количество за неделю'))
-        ws_model = models2.filter(model=i)
+        ws_model = models.filter(model=i)
         for j in ws_model:
             ws.append((j['model'], j['version'], j['version__count']))
 
-    ws = wb['Sheet']  # удаление базового листа
+    ws = wb['Sheet']
     wb.remove(ws)
+    report_name = f"report_{str(date).split(' ')[0]}.xlsx"
+    wb.save(report_name)
 
-    wb.save('test.xlsx')
-
-    return 'test.xlsx'
+    return report_name
 
 

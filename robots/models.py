@@ -7,4 +7,3 @@ class Robot(models.Model):
     version = models.CharField(max_length=2, blank=False, null=False)
     created = models.DateTimeField(blank=False, null=False)
     available = models.BooleanField(default=True)  # наличие роботов на складе
-

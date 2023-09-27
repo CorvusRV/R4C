@@ -29,7 +29,6 @@ class RobotsView(View):
         }
 
         robot = Robot.objects.create(**robot_data)
-        # запрос есть ли такой робот в списке ожидания и если да, передаются данные в заказы
 
         data = {
             'message': f'Робот {robot.model}-{robot.version} создан'
@@ -40,6 +39,4 @@ class ReportView(View):
     def get(self, request):
         exlx_name = create_exlx()
         response = FileResponse(open(exlx_name, 'rb'))
-        response['Content-Disposition'] = 'attachment; filename=' + exlx_name
-        response['X-Sendfile'] = exlx_name
         return response

@@ -4,3 +4,5 @@ tasks.md
 .idea
 db.sqlite3
 __pycache__
+.env
+*.xlsx
