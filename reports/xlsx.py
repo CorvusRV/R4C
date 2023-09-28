@@ -1,6 +1,6 @@
 from django.db.models import Count
 
-from .models import Robot
+from robots.models import Robot
 
 from openpyxl import Workbook
 from datetime import datetime
@@ -29,5 +29,3 @@ def create_exlx():
     wb.save(report_name)
 
     return report_name
-
-
