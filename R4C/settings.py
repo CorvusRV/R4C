@@ -131,4 +131,4 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # 'corvusrv@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # 'hfos upij vmvq qkzf'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # для тестирования смс уведомлений
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # для тестирования email уведомлений
